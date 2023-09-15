@@ -18,7 +18,7 @@ testSets {
 }
 
 
-val jacksonVersion = "2.12.5"
+val jacksonVersion = "2.15.2"
 
 
 configurations {
@@ -82,7 +82,7 @@ tasks.withType<Test> {
 }
 
 val jacksonCompatVersions = mapOf(
-    "2.9" to (9..10), "2.10" to (4..5), "2.11" to (0..4), "2.12" to (0..5), "2.13" to (0..0)
+    "2.13" to (0..5), "2.14" to (0..3), "2.15" to (0..2)
 ).flatMap { (majorMinor, patchVersions) -> patchVersions.map { "$majorMinor.$it" } }
 
 for (compatVersion in jacksonCompatVersions) {
