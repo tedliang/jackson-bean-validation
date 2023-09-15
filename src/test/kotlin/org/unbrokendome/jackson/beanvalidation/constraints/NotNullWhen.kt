@@ -1,7 +1,7 @@
 package org.unbrokendome.jackson.beanvalidation.constraints
 
-import javax.validation.Constraint
-import javax.validation.Payload
+import jakarta.validation.Constraint
+import jakarta.validation.Payload
 import kotlin.annotation.AnnotationTarget.*
 import kotlin.reflect.KClass
 
@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 annotation class NotNullWhen(
     val field: String,
     val value: String,
-    val message: String = "{javax.validation.constraints.NotNull.message}",
+    val message: String = "{jakarta.validation.constraints.NotNull.message}",
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )

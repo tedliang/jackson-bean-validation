@@ -5,8 +5,7 @@ import assertk.assertions.hasSize
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.unbrokendome.jackson.beanvalidation.assertions.hasViolation
-import java.io.IOException
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 
 class SimpleValidationTest : AbstractValidationTest() {

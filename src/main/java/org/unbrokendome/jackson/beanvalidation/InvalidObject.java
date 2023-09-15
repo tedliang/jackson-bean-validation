@@ -2,8 +2,8 @@ package org.unbrokendome.jackson.beanvalidation;
 
 import com.fasterxml.jackson.core.JsonStreamContext;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;

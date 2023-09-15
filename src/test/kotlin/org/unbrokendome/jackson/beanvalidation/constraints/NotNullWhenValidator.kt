@@ -2,8 +2,8 @@ package org.unbrokendome.jackson.beanvalidation.constraints
 
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext
 import java.util.*
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 class NotNullWhenValidator : ConstraintValidator<NotNullWhen, String?> {
     private var field: String = ""
