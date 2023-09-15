@@ -3,8 +3,8 @@ package org.unbrokendome.jackson.beanvalidation.constraints
 import org.hibernate.validator.HibernateValidatorFactory
 import org.unbrokendome.jackson.beanvalidation.ConstructorValidatorFactory
 import java.lang.reflect.Constructor
-import javax.validation.Validator
-import javax.validation.ValidatorFactory
+import jakarta.validation.Validator
+import jakarta.validation.ValidatorFactory
 
 class HibernateConstructorValidatorFactory : ConstructorValidatorFactory {
     override fun getValidator(validatorFactory: ValidatorFactory, constructor: Constructor<Any>, parameterValues: Array<out Any>): Validator {

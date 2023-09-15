@@ -1,7 +1,7 @@
 package org.unbrokendome.jackson.beanvalidation;
 
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.lang.reflect.Constructor;
 
 public interface ConstructorValidatorFactory {
