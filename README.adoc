@@ -1,6 +1,6 @@
 = Jackson Bean Validation Module
-:version: 0.6.0
-:groupId: org.unbroken-dome.jackson-bean-validation
+:version: 1.0.0
+:groupId: com.github.tedliang
 :artifactId: jackson-bean-validation
 
 image:https://img.shields.io/maven-central/v/{groupId}/{artifactId}[]
@@ -86,10 +86,17 @@ Obviously, the only solution to this is to merge steps 1 and 2 into one, and per
 _during_ deserialization. This is where this module comes in.
 
 
+== Requirements
+
+* Java 17 or higher
+* Jackson 2.18 or higher
+* A Bean Validation 3.0 implementation (e.g. Hibernate Validator 8.x)
+
+
 == Usage
 
 The module library is available on
-https://search.maven.org/artifact/org.unbroken-dome.jackson-bean-validation/jackson-bean-validation/{version}/bundle[Maven Central].
+https://jitpack.io/#tedliang/jackson-bean-validation[JitPack].
 
 Add the following dependency to your build script:
 
@@ -101,7 +108,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.unbroken-dome.jackson-bean-validation:jackson-bean-validation:{version}'
+    implementation 'com.github.tedliang:jackson-bean-validation:{version}'
 }
 ----
 
@@ -109,7 +116,7 @@ dependencies {
 .Maven (pom.xml)
 ----
 <dependency>
-    <groupId>org.unbroken-dome.jackson-bean-validation</groupId>
+    <groupId>com.github.tedliang</groupId>
     <artifactId>jackson-bean-validation</artifactId>
     <version>{version}</version>
 </dependency>
@@ -359,17 +366,15 @@ still be honored if present (for example, to customize the validation message).
 
 == Jackson Version Compatibility
 
-The module requires Jackson 2.9.x or higher. It does not work with Jackson 2.8.x.
+The module requires Jackson 2.18 or higher.
 
 Automated compatibility tests are run for the following Jackson versions:
 
 |===
 | Jackson major/minor | Tested compatibility
 
-| 2.9 | 2.9.0 -- 2.9.10
-| 2.10 | 2.10.0 -- 2.10.5
-| 2.11 | 2.11.0 -- 2.11.4
-| 2.12 | 2.12.0 -- 2.12.3
+| 2.18 | 2.18.0 -- 2.18.8
+| 2.21 | 2.21.0 -- 2.21.4
 |===
 
 

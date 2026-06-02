@@ -34,12 +34,13 @@ class ValidationAwarePropertyValueBuffer extends PropertyValueBuffer {
     private final JsonValidated validationAnnotation;
 
 
+    @SuppressWarnings("deprecation")
     ValidationAwarePropertyValueBuffer(
             JsonParser p, DeserializationContext ctxt, int paramCount, ObjectIdReader oir,
             JavaType beanType, BeanValidationFeatureSet features, MessageInterpolator messageInterpolator,
             JsonValidated validationAnnotation
     ) {
-        super(p, ctxt, paramCount, oir);
+        super(p, ctxt, paramCount, oir, null);
         this.beanType = beanType;
         this.features = features;
         this.messageInterpolator = messageInterpolator;

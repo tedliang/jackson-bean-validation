@@ -11,7 +11,7 @@ repositories {
 }
 
 
-val jacksonVersion = "2.15.2"
+val jacksonVersion = "2.21.4"
 
 // Create the javaOnlyTest source set (replaces the test-sets plugin)
 sourceSets {
@@ -99,7 +99,7 @@ tasks.withType<Test> {
 }
 
 val jacksonCompatVersions = mapOf(
-    "2.13" to (0..5), "2.14" to (0..3), "2.15" to (0..2)
+    "2.18" to (0..8), "2.21" to (0..4)
 ).flatMap { (majorMinor, patchVersions) -> patchVersions.map { "$majorMinor.$it" } }
 
 for (compatVersion in jacksonCompatVersions) {

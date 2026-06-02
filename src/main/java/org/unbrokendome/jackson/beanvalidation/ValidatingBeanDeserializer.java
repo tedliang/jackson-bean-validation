@@ -493,7 +493,7 @@ class ValidatingBeanDeserializer extends BeanDeserializer {
 
                     if (bean == null) {
                         return ctxt.handleInstantiationProblem(handledType(), null,
-                                _creatorReturnedNullException());
+                                new NullPointerException("Creator returned null"));
                     }
                     // [databind#631]: Assign current value, to be accessible by custom serializers
                     p.setCurrentValue(bean);
