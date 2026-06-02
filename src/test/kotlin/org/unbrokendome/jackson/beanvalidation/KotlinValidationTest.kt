@@ -29,7 +29,7 @@ class KotlinValidationTest : AbstractValidationTest() {
 
     @BeforeEach
     fun registerKotlinModule() {
-        objectMapper.registerModule(KotlinModule())
+        objectMapper.registerModule(KotlinModule.Builder().build())
         objectMapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
         objectMapper.configure(DeserializationFeature.WRAP_EXCEPTIONS, false)
     }

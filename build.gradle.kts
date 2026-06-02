@@ -1,34 +1,44 @@
 plugins {
     `java-library`
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "2.3.21"
     signing
     `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-    id("org.unbroken-dome.test-sets") version "4.0.0"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 repositories {
     mavenCentral()
 }
 
-testSets {
+
+val jacksonVersion = "2.21.4"
+
+// Create the javaOnlyTest source set (replaces the test-sets plugin)
+sourceSets {
     create("javaOnlyTest") {
-        dirName = "java-only-test"
+        java.srcDir("src/java-only-test/java")
+        compileClasspath += sourceSets["main"].output
+        runtimeClasspath += sourceSets["main"].output
     }
 }
-
-
-val jacksonVersion = "2.15.2"
-
 
 configurations {
-    "javaOnlyTestImplementation" {
-        setExtendsFrom(extendsFrom - setOf(testImplementation.get()))
-        extendsFrom(implementation.get())
+    named("javaOnlyTestImplementation") {
+        extendsFrom(configurations["implementation"])
+    }
+    named("javaOnlyTestRuntimeOnly") {
+        extendsFrom(configurations["runtimeOnly"])
     }
 }
+
+val javaOnlyTest by tasks.registering(Test::class) {
+    testClassesDirs = sourceSets["javaOnlyTest"].output.classesDirs
+    classpath = sourceSets["javaOnlyTest"].runtimeClasspath
+    useJUnitPlatform()
+}
+
 tasks.named("check") {
-    dependsOn("javaOnlyTest")
+    dependsOn(javaOnlyTest)
 }
 
 
@@ -43,7 +53,7 @@ dependencies {
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("reflect"))
 
-    testImplementation(platform("org.junit:junit-bom:5.7.1"))
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
@@ -54,35 +64,42 @@ dependencies {
     testImplementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("ch.qos.logback:logback-classic:1.2.3")
 
+    "javaOnlyTestImplementation"(platform("org.junit:junit-bom:5.11.4"))
     "javaOnlyTestImplementation"("org.junit.jupiter:junit-jupiter-api")
     "javaOnlyTestImplementation"("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+    "javaOnlyTestRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine")
+    "javaOnlyTestRuntimeOnly"("org.junit.platform:junit-platform-launcher")
 }
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     withSourcesJar()
     withJavadocJar()
 }
 
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs = listOf("-Xjvm-default=enable", "-java-parameters")
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.addAll("-Xjvm-default=all", "-java-parameters")
     }
 }
 
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 val jacksonCompatVersions = mapOf(
-    "2.13" to (0..5), "2.14" to (0..3), "2.15" to (0..2)
+    "2.18" to (0..8), "2.21" to (0..4)
 ).flatMap { (majorMinor, patchVersions) -> patchVersions.map { "$majorMinor.$it" } }
 
 for (compatVersion in jacksonCompatVersions) {
@@ -97,6 +114,7 @@ for (compatVersion in jacksonCompatVersions) {
     val testTask = project.tasks.register("jacksonCompatTest_$compatVersion", Test::class) {
         group = JavaBasePlugin.VERIFICATION_GROUP
         shouldRunAfter("test")
+        testClassesDirs = sourceSets["test"].output.classesDirs
         classpath = sourceSets["test"].output + sourceSets["main"].output + testConfiguration
         exclude("**/KotlinValidationTest.class")
     }
@@ -148,7 +166,7 @@ publishing {
     repositories {
         maven {
             name = "local"
-            url = uri("$buildDir/repos/releases")
+            url = uri(layout.buildDirectory.dir("repos/releases"))
         }
     }
 }
